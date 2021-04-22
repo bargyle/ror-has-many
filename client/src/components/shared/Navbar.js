@@ -1,17 +1,26 @@
-import { AuthConsumer } from '../../providers/AuthProvider';
-import { Menu } from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
-
+import { AuthConsumer } from '../../providers/AuthProvider'
+import { Menu } from 'semantic-ui-react'
+import { Link, withRouter } from 'react-router-dom'
 const Navbar = ({ location, user, handleLogout, history }) => {
-
   const rightNavItem = () => {
     if (user) {
       return (
         <Menu.Menu position='right'>
-          <Menu.Item
-            name='logout'
-            onClick={() => handleLogout(history)}
-          />
+          <Link to='/user/simons'>
+            <Menu.Item
+              name='userSimons'
+              id='userSimons'
+              active={location.pathname === '/user/simons'}
+            />
+          </Link>
+          <Link to='/simons'>
+            <Menu.Item
+              name='simons'
+              id='simons'
+              active={location.pathname === '/simons'}
+            />
+          </Link>
+          <Menu.Item name='logout' onClick={() => handleLogout(history)} />
         </Menu.Menu>
       )
     } else {
@@ -35,29 +44,18 @@ const Navbar = ({ location, user, handleLogout, history }) => {
       )
     }
   }
-
-  return(
+  return (
     <>
       <Menu pointing secondary>
         <Link to='/'>
-          <Menu.Item
-            name='home'
-            id='home'
-            active={location.pathname === '/'}
-          />
+          <Menu.Item name='home' id='home' active={location.pathname === '/'} />
         </Link>
-        { rightNavItem() }
+        {rightNavItem()}
       </Menu>
     </>
   )
 }
-
 const ConnectedNavbar = (props) => (
-  <AuthConsumer>
-    { auth =>
-      <Navbar {...props} {...auth} />
-    }
-  </AuthConsumer>
+  <AuthConsumer>{(auth) => <Navbar {...props} {...auth} />}</AuthConsumer>
 )
-
-export default withRouter(ConnectedNavbar);
+export default withRouter(ConnectedNavbar)
